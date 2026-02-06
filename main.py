@@ -1,4 +1,5 @@
 from src.DataScienceProject import logger
+from src.DataScienceProject.pipeline.data_evaluation_pipeline import DataEvaluationPipeline
 from src.DataScienceProject.pipeline.data_ingestion_pipeline import DataIngestionTrainPipeline
 from src.DataScienceProject.pipeline.data_transformation_pipeline import DataTransformationTrainPipeline
 from src.DataScienceProject.pipeline.data_validation_pipeline import DataValidationTrainPipeline
@@ -39,6 +40,16 @@ try:
     logger.info(f">>>>>> Stage {STAGE_NAME} started <<<<<<")
     obj = DataTrainPipeline()
     obj.init_data_train_pipeline()
+    logger.info(f">>>>>> Stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
+except Exception as e:
+    logger.exception(e)
+    raise e
+
+STAGE_NAME = "Data Evaluation Stage"
+try:
+    logger.info(f">>>>>> Stage {STAGE_NAME} started <<<<<<")
+    obj = DataEvaluationPipeline()
+    obj.init_data_evaluation_pipeline()
     logger.info(f">>>>>> Stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
 except Exception as e:
     logger.exception(e)

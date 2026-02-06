@@ -1,6 +1,7 @@
+import os
 from src.DataScienceProject.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH, SCHEMA_FILE_PATH
 from src.DataScienceProject.utils.common import read_yaml, create_directories
-from src.DataScienceProject.entity.entity_config import (DataIngestionConfig, DataTransformationConfig, DataValidationConfig,ModelTrainerConfig)
+from src.DataScienceProject.entity.entity_config import (DataIngestionConfig, DataTransformationConfig, DataValidationConfig, ModelEvaluationConfig,ModelTrainerConfig)
 
 class ConfigurationManager:
     def __init__(self, config_filepath = CONFIG_FILE_PATH, params_filepath= PARAMS_FILE_PATH, schema_filepath= SCHEMA_FILE_PATH):
@@ -63,3 +64,24 @@ class ConfigurationManager:
 
 
         return model_trainer_config
+    
+    def get_model_evaluation_config(self) -> ModelEvaluationConfig:
+        config = self.config.model_evaluation
+        params= self.params.ElasticNet
+        schema = self.schema.TARGET_COLUMN
+
+        create_directories([config.root_dir])    
+
+        model_evaluation_config = ModelEvaluationConfig(
+            root_dir = config.root_dir,
+            model = config.model,
+            test_file_path = config.test_file_path,
+            metric_file_path = config.metric_file_path,
+            all_params = self.params,
+            target_col = self.schema.TARGET_COLUMN,
+            mlflow_uri = 'https://dagshub.com/matheusbeuren/data-science-project.mlflow'
+
+
+        )
+
+        return model_evaluation_config
